@@ -60,9 +60,6 @@ function render() {
   if (item.date) badges.push(`<span class="badge">📅 ${escapeHtml(item.date)}</span>`);
 
   detailContainer.innerHTML = `
-    <div class="item-cover" style="background: ${coverStyle(item)}">
-      <span class="item-cover-emoji">${item.icon ?? "📦"}</span>
-    </div>
     <div class="item-body">
       <h1 class="item-name">
         <span class="item-name-icon">${item.icon ?? "📦"}</span>
