@@ -26,12 +26,12 @@ function formatNum(n) {
   return String(n);
 }
 
-function downloadUrl(item) {
-  return item.url ? item.url : item.file;
+function downloadUrl(it) {
+  return it.url ? it.url : it.file;
 }
 
-function isExternal(item) {
-  return !!item.url;
+function isExternal(it) {
+  return !!it.url;
 }
 
 function escapeHtml(str) {
@@ -40,13 +40,13 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function coverStyle(item) {
-  const [a, b] = item.color || ["#161b22", "#1a2432"];
+function coverStyle(it) {
+  const [a, b] = it.color || ["#161b22", "#1a2432"];
   return `linear-gradient(135deg, ${a}, ${b})`;
 }
 
-function catLabel(item) {
-  return CATEGORIES.find((c) => c.id === item.category)?.label ?? item.category;
+function catLabel(it) {
+  return CATEGORIES.find((c) => c.id === it.category)?.label ?? it.category;
 }
 
 function matchesFilter(it) {
@@ -90,9 +90,9 @@ function renderCarousel() {
           ${item.downloads ? `<span class="badge">⬇ ${formatNum(item.downloads)} downloads</span>` : ""}
         </div>
         <a class="download-btn carousel-btn"
-           href="${escapeHtml(downloadUrl(item))}"
-           ${isExternal(item) ? 'target="_blank" rel="noopener"' : 'download'}>
-          ⬇ Baixar agora
+           href="item.html?id=${ITEMS.indexOf(item)}"
+           >
+          📄 Ver detalhes
         </a>
       </div>
     `;

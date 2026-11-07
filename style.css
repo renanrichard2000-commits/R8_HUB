@@ -276,7 +276,14 @@ body {
   border: 1px solid var(--border);
   border-radius: 10px;
 }
-.card-title { font-size: 1.1rem; font-weight: 700; }
+.card-title {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: color 0.15s;
+}
+.card-title:hover { color: var(--accent); }
 .card-desc { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.9rem; flex: 1; }
 .card-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
 .badge {
@@ -346,48 +353,46 @@ body {
 /* ===== Página de detalhe do item ===== */
 .item-cover {
   border-radius: var(--radius);
-  height: 300px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 .item-cover-emoji {
-  font-size: 8rem;
+  font-size: 9rem;
   filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
   line-height: 1;
 }
-.item-body { max-width: 720px; }
+.item-body { max-width: 760px; }
 .item-name {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
   letter-spacing: -0.5px;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
 }
 .item-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.6rem;
 }
-.item-desc { font-size: 1.05rem; margin-bottom: 1.6rem; }
-.item-download { font-size: 1.05rem; padding: 0.9rem 1.8rem; }
-.item-hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.9rem; }
+.item-section {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+}
+.item-desc { font-size: 1.05rem; margin-bottom: 1.8rem; }
+.item-download { font-size: 1.1rem; padding: 0.95rem 2rem; margin-bottom: 0.4rem; }
+.item-hint { color: var(--text-dim); font-size: 0.88rem; }
 .item-hint code {
   background: var(--bg-elev);
   padding: 0.1rem 0.45rem;
   border-radius: 5px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
 }
-
-.card-title {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 700;
-  transition: color 0.15s;
-}
-.card-title:hover { color: var(--accent); }
 
 /* ===== Footer ===== */
 .footer {
@@ -408,4 +413,7 @@ body {
   .carousel-emoji { font-size: 6rem; }
   .carousel-content h2 { font-size: 1.7rem; }
   .carousel-arrow { display: none; }
+  .item-name { font-size: 1.6rem; }
+  .item-cover { height: 240px; }
+  .item-cover-emoji { font-size: 6rem; }
 }

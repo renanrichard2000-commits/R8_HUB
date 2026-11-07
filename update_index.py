@@ -35,6 +35,13 @@ CATEGORY_COLORS = {
     "files": ["#4e342e", "#795548"],
 }
 
+CATEGORY_ICONS = {
+    "games": "🎮",
+    "apps": "📱",
+    "tools": "🛠️",
+    "files": "📁",
+}
+
 
 def human_size(path):
     size = os.path.getsize(path)
@@ -53,15 +60,6 @@ def guess_category(name):
     if TOOLS_KEYWORDS.search(name):
         return "tools"
     return "files"
-
-
-def guess_icon(category):
-    return {
-        "games": "🎮",
-        "apps": "📱",
-        "tools": "🛠️",
-        "files": "📁",
-    }.get(category, "📦")
 
 
 def main():
@@ -83,7 +81,7 @@ def main():
             "  {\n"
             f'    name: "{fname}",\n'
             f'    category: "{cat}",\n'
-            f'    icon: "{guess_icon(cat)}",\n'
+            f'    icon: "{CATEGORY_ICONS.get(cat, "📦")}",\n'
             f'    color: ["{colors[0]}", "{colors[1]}"],\n'
             f'    featured: false,\n'
             f'    description: "Arquivo adicionado automaticamente — edite esta linha no data.js se quiser.",\n'

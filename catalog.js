@@ -35,12 +35,12 @@ function formatNum(n) {
   return String(n);
 }
 
-function downloadUrl(item) {
-  return item.url ? item.url : item.file;
+function downloadUrl(it) {
+  return it.url ? it.url : it.file;
 }
 
-function isExternal(item) {
-  return !!item.url;
+function isExternal(it) {
+  return !!it.url;
 }
 
 function escapeHtml(str) {
