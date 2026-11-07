@@ -82,6 +82,7 @@ def main():
             f'    name: "{fname}",\n'
             f'    category: "{cat}",\n'
             f'    icon: "{CATEGORY_ICONS.get(cat, "📦")}",\n'
+            f'    image: "images/icon-{cat}.svg",\n'
             f'    color: ["{colors[0]}", "{colors[1]}"],\n'
             f'    featured: false,\n'
             f'    description: "Arquivo adicionado automaticamente — edite esta linha no data.js se quiser.",\n'

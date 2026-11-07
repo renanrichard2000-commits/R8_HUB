@@ -62,7 +62,7 @@ function render() {
   detailContainer.innerHTML = `
     <div class="item-body">
       <h1 class="item-name">
-        <span class="item-name-icon">${item.icon ?? "📦"}</span>
+        <img class="item-name-icon" src="${itemImage(item)}" alt="${escapeHtml(item.name)}" />
         ${escapeHtml(item.name)}
       </h1>
       <div class="item-meta">${badges.join("")}</div>
@@ -104,7 +104,7 @@ function miniCard(it) {
   card.href = "item.html?id=" + ITEMS.indexOf(it);
   card.innerHTML = `
     <div class="row-card-cover" style="background: ${coverStyle(it)}">
-      <span class="cover-emoji">${it.icon}</span>
+      <img class="cover-emoji" src="${itemImage(it)}" alt="${escapeHtml(it.name)}" />
       <span class="cover-title">${escapeHtml(it.name)}</span>
     </div>
     <div class="row-card-info">

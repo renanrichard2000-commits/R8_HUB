@@ -79,7 +79,7 @@ function renderCarousel() {
     slide.className = "carousel-slide" + (idx === 0 ? " active" : "");
     slide.style.background = coverStyle(item);
     slide.innerHTML = `
-      <div class="carousel-emoji">${item.icon}</div>
+      <img class="carousel-emoji" src="${itemImage(item)}" alt="${escapeHtml(item.name)}" />
       <div class="carousel-content">
         <span class="carousel-tag">⭐ DESTAQUE DO MOMENTO</span>
         <h2>${escapeHtml(item.name)}</h2>
@@ -170,7 +170,7 @@ function renderRowCard(item) {
   card.href = `item.html?id=${ITEMS.indexOf(item)}`;
   card.innerHTML = `
     <div class="row-card-cover" style="background: ${coverStyle(item)}">
-      <span class="cover-emoji">${item.icon}</span>
+      <img class="cover-emoji" src="${itemImage(item)}" alt="${escapeHtml(item.name)}" />
       <span class="cover-title">${escapeHtml(item.name)}</span>
     </div>
     <div class="row-card-info">

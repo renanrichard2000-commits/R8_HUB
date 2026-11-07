@@ -65,7 +65,7 @@ function renderCard(item) {
 
   card.innerHTML = `
     <div class="card-top">
-      <div class="card-icon">${item.icon ?? "📦"}</div>
+      <img class="card-icon" src="${itemImage(item)}" alt="${escapeHtml(item.name)}" />
       <a class="card-title" href="item.html?id=${ITEMS.indexOf(item)}">${escapeHtml(item.name)}</a>
     </div>
     <p class="card-desc">${escapeHtml(item.description ?? "")}</p>

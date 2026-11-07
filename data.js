@@ -6,6 +6,20 @@ const CATEGORIES = [
   { id: "files",     label: "Arquivos",    icon: "📁" },
 ];
 
+// Imagens genéricas por categoria (substituem os emojis)
+const ITEM_IMAGES = {
+  games: "images/icon-games.svg",
+  apps: "images/icon-apps.svg",
+  tools: "images/icon-tools.svg",
+  files: "images/icon-files.svg",
+  default: "images/icon-default.svg",
+};
+
+// Ícone (imagem) de um item
+function itemImage(it) {
+  return ITEM_IMAGES[it.category] || ITEM_IMAGES.default;
+}
+
 // Linhas de destaque da página inicial
 const SECTIONS = [
   { id: "mais-baixados", title: "🔥 MAIS BAIXADOS", sub: "Os itens com o maior número de downloads" },
