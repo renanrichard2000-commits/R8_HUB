@@ -4,8 +4,11 @@ const rowsContainer = document.getElementById("rows");
 const searchInput = document.getElementById("search");
 const resultCount = document.getElementById("resultCount");
 const emptyState = document.getElementById("empty");
+const genreBar = document.getElementById("genreBar");
+const genreChips = document.getElementById("genreChips");
 
-let currentCategory = "all";
+let currentCategory = "all";   // plataforma selecionada
+let currentGenre = "all";      // gênero selecionado
 let currentQuery = "";
 
 /* ---------- helpers ---------- */
@@ -51,15 +54,55 @@ function catLabel(it) {
 
 function matchesFilter(it) {
   const okCat = currentCategory === "all" || it.category === currentCategory;
+  const okGenre = currentGenre === "all" || it.genre === currentGenre;
   const q = currentQuery.trim().toLowerCase();
   const okQ =
     !q ||
     (it.name || "").toLowerCase().includes(q) ||
     (it.description || "").toLowerCase().includes(q);
-  return okCat && okQ;
+  return okCat && okGenre && okQ;
 }
 
-/* ---------- carrossel de destaques ---------- */
+/* ---------- gêneros ---------- */
+
+function renderGenreBar() {
+  if (currentCategory === "all") {
+    genreBar.hidden = true;
+    currentGenre = "all";
+    return;
+  }
+
+  genreBar.hidden = false;
+  const genres = GENRES[currentCategory] || [];
+
+  genreChips.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.className = "genre-chip" + (currentGenre === "all" ? " active" : "");
+  allChip.textContent = "Todos";
+  allChip.addEventListener("click", () => {
+    currentGenre = "all";
+    renderGenreBar();
+    renderRows();
+    renderCarousel();
+  });
+  genreChips.appendChild(allChip);
+
+  for (const g of genres) {
+    const chip = document.createElement("button");
+    chip.className = "genre-chip" + (currentGenre === g ? " active" : "");
+    chip.textContent = g;
+    chip.addEventListener("click", () => {
+      currentGenre = g;
+      renderGenreBar();
+      renderRows();
+      renderCarousel();
+    });
+    genreChips.appendChild(chip);
+  }
+}
+
+/* ---------- carrossel ---------- */
 
 let carouselSlides = [];
 let carouselIndex = 0;
@@ -86,20 +129,16 @@ function renderCarousel() {
         <p class="carousel-desc">${escapeHtml(item.description || "")}</p>
         <div class="carousel-meta">
           <span class="badge cat-${escapeHtml(item.category)}">${escapeHtml(catLabel(item))}</span>
+          <span class="badge genre-badge">${escapeHtml(item.genre || "—")}</span>
           ${item.size ? `<span class="badge">${escapeHtml(item.size)}</span>` : ""}
           ${item.downloads ? `<span class="badge">⬇ ${formatNum(item.downloads)} downloads</span>` : ""}
         </div>
-        <a class="download-btn carousel-btn"
-           href="item.html?id=${ITEMS.indexOf(item)}"
-           >
-          📄 Ver detalhes
-        </a>
+        <a class="download-btn carousel-btn" href="item.html?id=${ITEMS.indexOf(item)}">📄 Ver detalhes</a>
       </div>
     `;
     carouselEl.appendChild(slide);
   });
 
-  // pontinhos
   const dots = document.createElement("div");
   dots.className = "carousel-dots";
   carouselSlides.forEach((_, idx) => {
@@ -111,7 +150,6 @@ function renderCarousel() {
   });
   carouselEl.appendChild(dots);
 
-  // setas
   const prev = document.createElement("button");
   prev.className = "carousel-arrow prev";
   prev.innerHTML = "‹";
@@ -150,7 +188,7 @@ function resetTimer() {
 carouselEl.addEventListener("mouseenter", () => clearInterval(carouselTimer));
 carouselEl.addEventListener("mouseleave", startTimer);
 
-/* ---------- linhas de itens ---------- */
+/* ---------- linhas ---------- */
 
 function sortedItems(sectionId) {
   let items = ITEMS.slice();
@@ -176,6 +214,7 @@ function renderRowCard(item) {
     <div class="row-card-info">
       <div class="row-card-name">${escapeHtml(item.name)}</div>
       <div class="row-card-meta">
+        <span class="genre-mini">${escapeHtml(item.genre || "—")}</span>
         ${item.downloads ? `⬇ ${formatNum(item.downloads)}` : ""}${item.downloads && item.size ? " · " : ""}${item.size ? `${escapeHtml(item.size)}` : ""}
       </div>
     </div>
@@ -212,7 +251,7 @@ function renderRows() {
   emptyState.hidden = total > 0;
 }
 
-/* ---------- categorias no topo ---------- */
+/* ---------- topbar (plataformas) ---------- */
 
 function renderTopbar() {
   topbarNav.innerHTML = "";
@@ -223,6 +262,7 @@ function renderTopbar() {
     chip.addEventListener("click", () => {
       currentCategory = cat.id;
       renderTopbar();
+      renderGenreBar();
       renderRows();
       renderCarousel();
     });
@@ -238,5 +278,6 @@ searchInput.addEventListener("input", () => {
 });
 
 renderTopbar();
+renderGenreBar();
 renderCarousel();
 renderRows();

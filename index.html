@@ -10,10 +10,11 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Barra superior fixa (estilo Steam) -->
+  <!-- Barra superior fixa -->
   <header class="topbar">
     <div class="topbar-inner">
       <a class="logo" href="index.html">📦 Nexus<span>Downloads</span></a>
+      <a class="inicio-btn" href="index.html">🏠 INICIO</a>
       <a class="search-link" href="search.html">🔍 Buscar</a>
       <nav id="categories" class="topbar-nav"></nav>
       <div class="search-box">
@@ -21,6 +22,14 @@
       </div>
     </div>
   </header>
+
+  <!-- Barra de gêneros (aparece quando uma plataforma é selecionada) -->
+  <div id="genreBar" class="genre-bar" hidden>
+    <div class="genre-bar-inner">
+      <span class="genre-label">GÊNEROS</span>
+      <div id="genreChips" class="genre-chips"></div>
+    </div>
+  </div>
 
   <!-- Carrossel de destaques -->
   <section id="carousel" class="hero-carousel" aria-label="Destaque do momento"></section>

@@ -54,6 +54,7 @@ function render() {
 
   const badges = [];
   badges.push(`<span class="badge cat-${escapeHtml(item.category)}">${escapeHtml(catLabel(item))}</span>`);
+  if (item.genre) badges.push(`<span class="badge genre-badge">${escapeHtml(item.genre)}</span>`);
   if (item.version) badges.push(`<span class="badge">v${escapeHtml(item.version)}</span>`);
   if (item.size) badges.push(`<span class="badge">${escapeHtml(item.size)}</span>`);
   if (item.downloads) badges.push(`<span class="badge">⬇ ${formatNum(item.downloads)} downloads</span>`);

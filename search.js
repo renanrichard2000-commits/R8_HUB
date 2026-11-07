@@ -1,5 +1,5 @@
 // Página de busca com filtros — acessada via: search.html
-// Filtros: categorias, idiomas, tipo do item (abertos por padrão)
+// Filtros: plataformas, gêneros, idiomas, tipo do item
 
 const grid = document.getElementById("grid");
 const searchInput = document.getElementById("search");
@@ -10,10 +10,10 @@ const toggleFilters = document.getElementById("toggleFilters");
 const closeFilters = document.getElementById("closeFilters");
 const clearFiltersBtn = document.getElementById("clearFilters");
 
-// estado dos filtros
-let selectedCategories = new Set(); // ids de categorias
-let selectedLanguages = new Set();  // ids de idiomas
-let selectedTypes = new Set();      // ids de tipos
+let selectedCategories = new Set();
+let selectedGenres = new Set();
+let selectedLanguages = new Set();
+let selectedTypes = new Set();
 let currentQuery = "";
 
 /* ---------- helpers ---------- */
@@ -59,13 +59,13 @@ function renderCard(item) {
   card.className = "card";
 
   const badges = [];
+  badges.push(`<span class="badge genre-badge">${escapeHtml(item.genre || "—")}</span>`);
   if (item.version) badges.push(`<span class="badge">v${escapeHtml(item.version)}</span>`);
   if (item.size) badges.push(`<span class="badge">${escapeHtml(item.size)}</span>`);
   if (item.downloads) badges.push(`<span class="badge">⬇ ${formatNum(item.downloads)}</span>`);
   if (item.date) badges.push(`<span class="badge">📅 ${escapeHtml(item.date)}</span>`);
   badges.push(`<span class="badge type-badge">${escapeHtml(typeLabel(item))}</span>`);
 
-  // idiomas do item
   const langs = (item.language || [])
     .map((l) => LANGUAGES.find((x) => x.id === l)?.label)
     .filter(Boolean)
@@ -96,10 +96,8 @@ function renderCard(item) {
 /* ---------- filtros ---------- */
 
 function matchesFilters(it) {
-  // categoria
   if (selectedCategories.size && !selectedCategories.has(it.category)) return false;
-
-  // idioma (item deve ter pelo menos um dos idiomas selecionados)
+  if (selectedGenres.size && !selectedGenres.has(it.genre)) return false;
   if (selectedLanguages.size) {
     const itemLangs = new Set(it.language || []);
     let hasLang = false;
@@ -108,11 +106,8 @@ function matchesFilters(it) {
     });
     if (!hasLang) return false;
   }
-
-  // tipo
   if (selectedTypes.size && !selectedTypes.has(it.type)) return false;
 
-  // busca por texto
   const q = currentQuery.trim().toLowerCase();
   if (q) {
     const ok =
@@ -120,12 +115,10 @@ function matchesFilters(it) {
       (it.description || "").toLowerCase().includes(q);
     if (!ok) return false;
   }
-
   return true;
 }
 
-function renderFilters() {
-  // categorias
+function renderFilterPlatforms() {
   const catWrap = document.getElementById("filterCategories");
   catWrap.innerHTML = "";
   for (const cat of CATEGORIES) {
@@ -140,12 +133,48 @@ function renderFilters() {
     cb.querySelector("input").addEventListener("change", (e) => {
       if (e.target.checked) selectedCategories.add(cat.id);
       else selectedCategories.delete(cat.id);
+      renderFilterGenres();
       render();
     });
     catWrap.appendChild(cb);
   }
+}
 
-  // idiomas
+function renderFilterGenres() {
+  const genreWrap = document.getElementById("filterGenres");
+  genreWrap.innerHTML = "";
+
+  //coleta os gêneros das plataformas selecionadas
+  const genreSet = new Set();
+  selectedCategories.forEach((cat) => {
+    (GENRES[cat] || []).forEach((g) => genreSet.add(g));
+  });
+  const genres = Array.from(genreSet);
+
+  if (!genres.length) {
+    genreWrap.innerHTML = '<p class="filter-empty">Selecione uma plataforma para ver os gêneros.</p>';
+    return;
+  }
+
+  for (const g of genres) {
+    const cb = document.createElement("label");
+    cb.className = "filter-item";
+    cb.innerHTML = `
+      <input type="checkbox" value="${escapeHtml(g)}" ${selectedGenres.has(g) ? "checked" : ""} />
+      <span class="filter-check"></span>
+      <span>${escapeHtml(g)}</span>
+    `;
+    cb.querySelector("input").addEventListener("change", (e) => {
+      const val = e.target.value;
+      if (e.target.checked) selectedGenres.add(val);
+      else selectedGenres.delete(val);
+      render();
+    });
+    genreWrap.appendChild(cb);
+  }
+}
+
+function renderFilterLanguages() {
   const langWrap = document.getElementById("filterLanguages");
   langWrap.innerHTML = "";
   for (const lang of LANGUAGES) {
@@ -163,8 +192,9 @@ function renderFilters() {
     });
     langWrap.appendChild(cb);
   }
+}
 
-  // tipos
+function renderFilterTypes() {
   const typeWrap = document.getElementById("filterTypes");
   typeWrap.innerHTML = "";
   for (const t of ITEM_TYPES) {
@@ -211,15 +241,22 @@ closeFilters.addEventListener("click", () => {
 
 clearFiltersBtn.addEventListener("click", () => {
   selectedCategories.clear();
+  selectedGenres.clear();
   selectedLanguages.clear();
   selectedTypes.clear();
   searchInput.value = "";
   currentQuery = "";
-  renderFilters();
+  renderFilterPlatforms();
+  renderFilterGenres();
+  renderFilterLanguages();
+  renderFilterTypes();
   render();
 });
 
 /* ---------- init ---------- */
 
-renderFilters();
+renderFilterPlatforms();
+renderFilterGenres();
+renderFilterLanguages();
+renderFilterTypes();
 render();

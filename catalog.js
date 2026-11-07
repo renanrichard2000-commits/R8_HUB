@@ -56,6 +56,7 @@ function renderCard(item) {
   card.className = "card";
 
   const badges = [];
+  if (item.genre) badges.push(`<span class="badge genre-badge">${escapeHtml(item.genre)}</span>`);
   if (item.version) badges.push(`<span class="badge">v${escapeHtml(item.version)}</span>`);
   if (item.size) badges.push(`<span class="badge">${escapeHtml(item.size)}</span>`);
   if (item.downloads) badges.push(`<span class="badge">⬇ ${formatNum(item.downloads)}</span>`);
