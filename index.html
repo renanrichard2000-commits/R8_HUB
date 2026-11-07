@@ -10,28 +10,26 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <h1 class="logo">📦 Nexus<span>Downloads</span></h1>
-      <p class="tagline">Jogos, aplicativos, ferramentas e arquivos — tudo em um lugar.</p>
+  <!-- Barra superior fixa (estilo Steam) -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="index.html">📦 Nexus<span>Downloads</span></a>
+      <nav id="categories" class="topbar-nav"></nav>
       <div class="search-box">
-        <input id="search" type="search" placeholder="🔍 Buscar por nome..." autocomplete="off" />
+        <input id="search" type="search" placeholder="🔍 Buscar..." autocomplete="off" />
       </div>
-      <nav id="categories" class="categories"></nav>
     </div>
   </header>
 
-  <main class="container">
-    <div id="sections" class="sections"></div>
+  <!-- Carrossel de destaques -->
+  <section id="carousel" class="hero-carousel" aria-label="Destaque do momento"></section>
 
-    <div id="resultsArea" hidden>
-      <div class="results-bar">
-        <span id="resultCount"></span>
-        <button id="backToSections" class="ver-mais" style="display:none" type="button">← Voltar aos destaques</button>
-      </div>
-      <div id="grid" class="grid"></div>
-      <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
+  <main class="container">
+    <div class="results-bar">
+      <span id="resultCount"></span>
     </div>
+    <div id="rows"></div>
+    <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
   </main>
 
   <footer class="footer">

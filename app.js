@@ -1,14 +1,12 @@
-const sectionsContainer = document.getElementById("sections");
-const resultsArea = document.getElementById("resultsArea");
-const grid = document.getElementById("grid");
+const topbarNav = document.getElementById("categories");
+const carouselEl = document.getElementById("carousel");
+const rowsContainer = document.getElementById("rows");
 const searchInput = document.getElementById("search");
-const categoryNav = document.getElementById("categories");
 const resultCount = document.getElementById("resultCount");
 const emptyState = document.getElementById("empty");
-const backToSections = document.getElementById("backToSections");
 
 let currentCategory = "all";
-let mode = "sections"; // "sections" (destaques) ou "results" (busca/filtro)
+let currentQuery = "";
 
 /* ---------- helpers ---------- */
 
@@ -42,59 +40,119 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-/* ---------- card ---------- */
-
-function renderCard(item) {
-  const card = document.createElement("div");
-  card.className = "card";
-
-  const badges = [];
-  if (item.version) badges.push(`<span class="badge">v${escapeHtml(item.version)}</span>`);
-  if (item.size) badges.push(`<span class="badge">${escapeHtml(item.size)}</span>`);
-  if (item.downloads) badges.push(`<span class="badge">⬇ ${formatNum(item.downloads)}</span>`);
-
-  const catLabel = CATEGORIES.find((c) => c.id === item.category)?.label ?? item.category;
-
-  card.innerHTML = `
-    <div class="card-top">
-      <div class="card-icon">${item.icon ?? "📦"}</div>
-      <div class="card-title">${escapeHtml(item.name)}</div>
-    </div>
-    <p class="card-desc">${escapeHtml(item.description ?? "")}</p>
-    <div class="card-meta">
-      <span class="badge cat-${escapeHtml(item.category)}">${escapeHtml(catLabel)}</span>
-      ${badges.join("")}
-    </div>
-    <a class="download-btn ${isExternal(item) ? "external" : ""}"
-       href="${escapeHtml(downloadUrl(item))}"
-       ${isExternal(it) ? 'target="_blank" rel="noopener"' : 'download'}>
-      ⬇ Download
-    </a>
-  `;
-  return card;
+function coverStyle(item) {
+  const [a, b] = item.color || ["#161b22", "#1a2432"];
+  return `linear-gradient(135deg, ${a}, ${b})`;
 }
 
-/* ---------- categorias ---------- */
-
-function renderCategories() {
-  categoryNav.innerHTML = "";
-  for (const cat of CATEGORIES) {
-    const chip = document.createElement("button");
-    chip.className = "category-chip" + (cat.id === currentCategory ? " active" : "");
-    chip.innerHTML = `<span>${cat.icon}</span> ${cat.label}`;
-    chip.addEventListener("click", () => {
-      currentCategory = cat.id;
-      mode = "results";
-      renderCategories();
-      render();
-    });
-    categoryNav.appendChild(chip);
-  }
+function catLabel(item) {
+  return CATEGORIES.find((c) => c.id === item.category)?.label ?? item.category;
 }
 
-/* ---------- destaques da página inicial ---------- */
+function matchesFilter(it) {
+  const okCat = currentCategory === "all" || it.category === currentCategory;
+  const q = currentQuery.trim().toLowerCase();
+  const okQ =
+    !q ||
+    (it.name || "").toLowerCase().includes(q) ||
+    (it.description || "").toLowerCase().includes(q);
+  return okCat && okQ;
+}
 
-function sectionItems(sectionId) {
+/* ---------- carrossel de destaques ---------- */
+
+let carouselSlides = [];
+let carouselIndex = 0;
+let carouselTimer = null;
+
+function featuredItems() {
+  const f = ITEMS.filter((it) => it.featured && matchesFilter(it));
+  return f.length ? f : ITEMS.filter(matchesFilter).slice(0, 3);
+}
+
+function renderCarousel() {
+  carouselSlides = featuredItems();
+  carouselEl.innerHTML = "";
+
+  carouselSlides.forEach((item, idx) => {
+    const slide = document.createElement("div");
+    slide.className = "carousel-slide" + (idx === 0 ? " active" : "");
+    slide.style.background = coverStyle(item);
+    slide.innerHTML = `
+      <div class="carousel-emoji">${item.icon}</div>
+      <div class="carousel-content">
+        <span class="carousel-tag">⭐ DESTAQUE DO MOMENTO</span>
+        <h2>${escapeHtml(item.name)}</h2>
+        <p class="carousel-desc">${escapeHtml(item.description || "")}</p>
+        <div class="carousel-meta">
+          <span class="badge cat-${escapeHtml(item.category)}">${escapeHtml(catLabel(item))}</span>
+          ${item.size ? `<span class="badge">${escapeHtml(item.size)}</span>` : ""}
+          ${item.downloads ? `<span class="badge">⬇ ${formatNum(item.downloads)} downloads</span>` : ""}
+        </div>
+        <a class="download-btn carousel-btn"
+           href="${escapeHtml(downloadUrl(item))}"
+           ${isExternal(item) ? 'target="_blank" rel="noopener"' : 'download'}>
+          ⬇ Baixar agora
+        </a>
+      </div>
+    `;
+    carouselEl.appendChild(slide);
+  });
+
+  // pontinhos
+  const dots = document.createElement("div");
+  dots.className = "carousel-dots";
+  carouselSlides.forEach((_, idx) => {
+    const dot = document.createElement("button");
+    dot.className = "carousel-dot" + (idx === 0 ? " active" : "");
+    dot.setAttribute("aria-label", "veja " + (idx + 1));
+    dot.addEventListener("click", () => goTo(idx));
+    dots.appendChild(dot);
+  });
+  carouselEl.appendChild(dots);
+
+  // setas
+  const prev = document.createElement("button");
+  prev.className = "carousel-arrow prev";
+  prev.innerHTML = "‹";
+  prev.addEventListener("click", () => goTo(carouselIndex - 1));
+
+  const next = document.createElement("button");
+  next.className = "carousel-arrow next";
+  next.innerHTML = "›";
+  next.addEventListener("click", () => goTo(carouselIndex + 1));
+
+  carouselEl.appendChild(prev);
+  carouselEl.appendChild(next);
+
+  startTimer();
+}
+
+function goTo(i) {
+  const slides = carouselEl.querySelectorAll(".carousel-slide");
+  const dots = carouselEl.querySelectorAll(".carousel-dot");
+  if (!slides.length) return;
+  carouselIndex = (i + slides.length) % slides.length;
+  slides.forEach((s, idx) => s.classList.toggle("active", idx === carouselIndex));
+  dots.forEach((d, idx) => d.classList.toggle("active", idx === carouselIndex));
+  resetTimer();
+}
+
+function startTimer() {
+  carouselTimer = setInterval(() => goTo(carouselIndex + 1), 5000);
+}
+
+function resetTimer() {
+  clearInterval(carouselTimer);
+  startTimer();
+}
+
+carouselEl.addEventListener("mouseenter", () => clearInterval(carouselTimer));
+carouselEl.addEventListener("mouseleave", startTimer);
+
+/* ---------- linhas de itens ---------- */
+
+function sortedItems(sectionId) {
   let items = ITEMS.slice();
   if (sectionId === "mais-baixados") {
     items.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
@@ -106,83 +164,80 @@ function sectionItems(sectionId) {
   return items;
 }
 
-function renderSections() {
-  sectionsContainer.innerHTML = "";
-  for (const sec of SECTIONS) {
-    const section = document.createElement("section");
-    section.className = "section";
-
-    const head = document.createElement("div");
-    head.className = "section-head";
-    head.innerHTML = `
-      <div>
-        <h2>${sec.title}</h2>
-        <p class="section-sub">${sec.sub}</p>
+function renderRowCard(item) {
+  const card = document.createElement("a");
+  card.className = "row-card";
+  card.href = downloadUrl(item);
+  card.setAttribute("download", "");
+  card.innerHTML = `
+    <div class="row-card-cover" style="background: ${coverStyle(item)}">
+      <span class="cover-emoji">${item.icon}</span>
+      <span class="cover-title">${escapeHtml(item.name)}</span>
+    </div>
+    <div class="row-card-info">
+      <div class="row-card-name">${escapeHtml(item.name)}</div>
+      <div class="row-card-meta">
+        ${item.downloads ? `⬇ ${formatNum(item.downloads)}` : ""}${item.downloads && item.size ? " · " : ""}${item.size ? `${escapeHtml(item.size)}` : ""}
       </div>
-      <a class="ver-mais" href="catalog.html?sec=${sec.id}">Ver mais →</a>
+    </div>
+  `;
+  return card;
+}
+
+function renderRows() {
+  rowsContainer.innerHTML = "";
+  for (const sec of SECTIONS) {
+    const items = sortedItems(sec.id).filter(matchesFilter);
+    if (!items.length) continue;
+
+    const row = document.createElement("section");
+    row.className = "row";
+    row.innerHTML = `
+      <div class="row-head">
+        <div>
+          <h2>${sec.title}</h2>
+          <p class="section-sub">${sec.sub}</p>
+        </div>
+        <a class="ver-mais" href="catalog.html?sec=${sec.id}">Ver mais →</a>
+      </div>
+      <div class="row-scroll" data-section="${sec.id}"></div>
     `;
 
-    const sectionGrid = document.createElement("div");
-    sectionGrid.className = "section-grid";
-    sectionGrid.setAttribute("data-section", sec.id);
+    const scroll = row.querySelector(".row-scroll");
+    items.slice(0, 12).forEach((it) => scroll.appendChild(renderRowCard(it)));
+    rowsContainer.appendChild(row);
+  }
 
-    sectionItems(sec.id).slice(0, 6).forEach((it) => sectionGrid.appendChild(renderCard(it)));
+  const total = ITEMS.filter(matchesFilter).length;
+  resultCount.textContent = `${total} item(s) encontrado(s)`;
+  emptyState.hidden = total > 0;
+}
 
-    section.appendChild(head);
-    section.appendChild(sectionGrid);
-    sectionsContainer.appendChild(section);
+/* ---------- categorias no topo ---------- */
+
+function renderTopbar() {
+  topbarNav.innerHTML = "";
+  for (const cat of CATEGORIES) {
+    const chip = document.createElement("button");
+    chip.className = "category-chip" + (cat.id === currentCategory ? " active" : "");
+    chip.innerHTML = `<span>${cat.icon}</span> ${cat.label}`;
+    chip.addEventListener("click", () => {
+      currentCategory = cat.id;
+      renderTopbar();
+      renderRows();
+      renderCarousel();
+    });
+    topbarNav.appendChild(chip);
   }
 }
 
-/* ---------- resultados (busca/filtro) ---------- */
-
-function renderResults() {
-  const q = searchInput.value.trim().toLowerCase();
-  const items = ITEMS.filter((it) => {
-    const matchesCat = currentCategory === "all" || it.category === currentCategory;
-    const matchesQ =
-      !q ||
-      (it.name || "").toLowerCase().includes(q) ||
-      (it.description || "").toLowerCase().includes(q);
-    return matchesCat && matchesQ;
-  });
-
-  resultCount.textContent = `${items.length} item(s) encontrado(s)`;
-  grid.innerHTML = "";
-  items.forEach((it) => grid.appendChild(renderCard(it)));
-  emptyState.hidden = items.length > 0;
-}
-
-/* ---------- render principal ---------- */
-
-function render() {
-  if (mode === "sections") {
-    sectionsContainer.hidden = false;
-    resultsArea.hidden = true;
-    renderSections();
-  } else {
-    sectionsContainer.hidden = true;
-    resultsArea.hidden = false;
-    renderResults();
-  }
-}
-
-/* ---------- eventos ---------- */
+/* ---------- busca ---------- */
 
 searchInput.addEventListener("input", () => {
-  if (searchInput.value.trim()) {
-    mode = "results";
-    render();
-  }
+  currentQuery = searchInput.value;
+  renderRows();
 });
 
-backToSections.addEventListener("click", () => {
-  searchInput.value = "";
-  currentCategory = "all";
-  mode = "sections";
-  renderCategories();
-  render();
-});
-
-renderCategories();
-render();
+renderTopbar();
+renderCarousel();
+renderRows();

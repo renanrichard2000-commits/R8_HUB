@@ -1,28 +1,22 @@
 # Nexus Downloads
 
-Site de downloads de **jogos, apps, ferramentas e arquivos**, hospedado de graça no **GitHub Pages**.
+Site de downloads de **jogos, apps, ferramentas e arquivos**, com visual estilo Steam, hospedado de graça no **GitHub Pages**.
 
 ## Como funciona
 
-- `index.html` / `style.css` / `app.js` → página inicial com destaques
+- `index.html` / `style.css` / `app.js` → página inicial estilo Steam
 - `catalog.html` / `catalog.js` → página única que lista **todos** os itens de uma seção
 - `data.js` → lista de itens para download (gerado automaticamente ou editável manualmente)
 - `files/` → coloque todos os arquivos que quiser disponibilizar aqui
 - `scripts/update_index.py` → regera `data.js` a partir do conteúdo de `files/`
 
-## Página inicial — os 3 blocos de destaque
+## Página inicial (estilo Steam)
 
-A página inicial mostra três seções, cada uma com os primeiros 6 itens e um botão **Ver mais**:
-
-| Bloco | Ordem | Como funciona |
-|---|---|---|
-| 🔥 **MAIS BAIXADOS** | Itens com maior `downloads` | Defina o número de downloads em `data.js` |
-| 🚀 **LANÇAMENTOS** | Itens mais recentes | Defina a `date` (YYYY-MM-DD) em `data.js` |
-| 🎲 **GERAL** | Itens em ordem aleatória | Sempre novo na cada carregamento |
-
-O botão **Ver mais →** abre `catalog.html?sec=...`, uma página única com **todos** os itens dessa seção, com busca e filtro por categoria.
-
-**Busca e categorias no topo** da página inicial também funcionam — ao buscar ou escolher uma categoria, a página mostra os resultados na mesma tela (com botão "Voltar aos destaques").
+- **Barra superior fixa** com logo, categorias (Todos/Jogos/Apps/Ferramentas/Arquivos) e busca
+- **Carrossel de destaques** (destaque do momento) — gira automaticamente a cada 5s, com setas e pontinhos
+- **Linhas horizontais** roláveis: 🔥 MAIS BAIXADOS · 🚀 LANÇAMENTOS · 🎲 GERAL
+- Cada item tem capa colorida (emoji + gradiente definido em `color`)
+- Botão **Ver mais →** em cada linha abre `catalog.html?sec=...` com **todos** os itens da seção
 
 ## Como adicionar um novo download
 
@@ -39,7 +33,7 @@ git add .
 git commit -m "adicionou meu-jogo.zip"
 git push
 ```
-Depois edite `data.js` para colocar a descrição, versão, tamanho, `downloads` e `date` de cada item.
+Depois edite `data.js` para colocar a descrição, versão, tamanho, `downloads`, `date`, `color` e `featured` de cada item.
 
 **Opção B — manual:** edite `data.js` e adicione um item no formato:
 ```js
@@ -47,6 +41,8 @@ Depois edite `data.js` para colocar a descrição, versão, tamanho, `downloads`
   name: "Meu Jogo",
   category: "games",      // games | apps | tools | files
   icon: "🎮",
+  color: ["#2b1547", "#7b3fa0"],   // gradiente da capa
+  featured: true,                    // true = aparece no carrossel
   description: "Descrição curta do que é.",
   version: "1.0.0",       // opcional
   size: "12.3 MB",        // opcional
@@ -57,6 +53,14 @@ Depois edite `data.js` para colocar a descrição, versão, tamanho, `downloads`
   // url: "https://github.com/.../releases/download/...",
 }
 ```
+
+## Personalização
+
+- **Capas:** ajuste `color` (gradiente) e `icon` (emoji) de cada item
+- **Destaques:** coloque `featured: true` nos itens que devem aparecer no carrossel
+- **Categorias:** edite `CATEGORIES` no `data.js`
+- **Linhas:** edite `SECTIONS` no `data.js`
+
 
 ## Passo a passo para colocar no GitHub
 
