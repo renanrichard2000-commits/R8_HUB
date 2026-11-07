@@ -366,11 +366,15 @@ body {
 }
 .item-body { max-width: 760px; }
 .item-name {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
   font-size: 2.2rem;
   font-weight: 900;
   letter-spacing: -0.5px;
   margin-bottom: 0.7rem;
 }
+.item-name-icon { font-size: 2.2rem; line-height: 1; }
 .item-meta {
   display: flex;
   flex-wrap: wrap;
@@ -384,9 +388,9 @@ body {
   color: var(--text-dim);
   margin-bottom: 0.6rem;
 }
-.item-desc { font-size: 1.05rem; margin-bottom: 1.8rem; }
-.item-download { font-size: 1.1rem; padding: 0.95rem 2rem; margin-bottom: 0.4rem; }
-.item-hint { color: var(--text-dim); font-size: 0.88rem; }
+.item-download { font-size: 1.1rem; padding: 0.95rem 2rem; margin-bottom: 0.9rem; }
+.item-hint { color: var(--text-dim); font-size: 0.88rem; margin-bottom: 1.6rem; }
+.item-desc { font-size: 1.05rem; }
 .item-hint code {
   background: var(--bg-elev);
   padding: 0.1rem 0.45rem;

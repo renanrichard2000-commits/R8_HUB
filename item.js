@@ -64,19 +64,21 @@ function render() {
       <span class="item-cover-emoji">${item.icon ?? "📦"}</span>
     </div>
     <div class="item-body">
-      <h1 class="item-name">${escapeHtml(item.name)}</h1>
+      <h1 class="item-name">
+        <span class="item-name-icon">${item.icon ?? "📦"}</span>
+        ${escapeHtml(item.name)}
+      </h1>
       <div class="item-meta">${badges.join("")}</div>
 
-      <h2 class="item-section">DESCRIÇÃO</h2>
-      <p class="item-desc">${escapeHtml(item.description ?? "")}</p>
-
-      <h2 class="item-section">BAIXAR</h2>
       <a class="download-btn item-download"
          href="${escapeHtml(downloadUrl(item))}"
          ${isExternal(item) ? 'target="_blank" rel="noopener"' : 'download'}>
         ⬇ Baixar agora
       </a>
       ${item.file ? `<p class="item-hint">Arquivo: <code>${escapeHtml(item.file.replace("./files/", ""))}</code> · ${escapeHtml(item.size || "")}</p>` : ""}
+
+      <h2 class="item-section">DESCRIÇÃO</h2>
+      <p class="item-desc">${escapeHtml(item.description ?? "")}</p>
     </div>
   `;
 
