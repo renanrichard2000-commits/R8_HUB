@@ -343,6 +343,52 @@ body {
   margin-top: 1.5rem;
 }
 
+/* ===== Página de detalhe do item ===== */
+.item-cover {
+  border-radius: var(--radius);
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.item-cover-emoji {
+  font-size: 8rem;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+  line-height: 1;
+}
+.item-body { max-width: 720px; }
+.item-name {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.8rem;
+}
+.item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.item-desc { font-size: 1.05rem; margin-bottom: 1.6rem; }
+.item-download { font-size: 1.05rem; padding: 0.9rem 1.8rem; }
+.item-hint { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.9rem; }
+.item-hint code {
+  background: var(--bg-elev);
+  padding: 0.1rem 0.45rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.card-title {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: color 0.15s;
+}
+.card-title:hover { color: var(--accent); }
+
 /* ===== Footer ===== */
 .footer {
   text-align: center;

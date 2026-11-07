@@ -6,6 +6,7 @@ Site de downloads de **jogos, apps, ferramentas e arquivos**, com visual estilo 
 
 - `index.html` / `style.css` / `app.js` → página inicial estilo Steam
 - `catalog.html` / `catalog.js` → página única que lista **todos** os itens de uma seção
+- `item.html` / `item.js` → **página própria de cada item** (clique em qualquer item)
 - `data.js` → lista de itens para download (gerado automaticamente ou editável manualmente)
 - `files/` → coloque todos os arquivos que quiser disponibilizar aqui
 - `scripts/update_index.py` → regera `data.js` a partir do conteúdo de `files/`
@@ -17,6 +18,7 @@ Site de downloads de **jogos, apps, ferramentas e arquivos**, com visual estilo 
 - **Linhas horizontais** roláveis: 🔥 MAIS BAIXADOS · 🚀 LANÇAMENTOS · 🎲 GERAL
 - Cada item tem capa colorida (emoji + gradiente definido em `color`)
 - Botão **Ver mais →** em cada linha abre `catalog.html?sec=...` com **todos** os itens da seção
+- **Clicar em qualquer item** (linha, catálogo ou itens relacionados) abre `item.html?id=N`, a página própria do item com: capa colorida, ícone, nome, descrição, metas (categoria, versão, tamanho, downloads, data) e botão **Baixar agora**, além da lista de **itens relacionados** da mesma categoria
 
 ## Como adicionar um novo download
 

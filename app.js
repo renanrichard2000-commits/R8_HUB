@@ -167,8 +167,7 @@ function sortedItems(sectionId) {
 function renderRowCard(item) {
   const card = document.createElement("a");
   card.className = "row-card";
-  card.href = downloadUrl(item);
-  card.setAttribute("download", "");
+  card.href = `item.html?id=${ITEMS.indexOf(item)}`;
   card.innerHTML = `
     <div class="row-card-cover" style="background: ${coverStyle(item)}">
       <span class="cover-emoji">${item.icon}</span>

@@ -66,7 +66,7 @@ function renderCard(item) {
   card.innerHTML = `
     <div class="card-top">
       <div class="card-icon">${item.icon ?? "📦"}</div>
-      <div class="card-title">${escapeHtml(item.name)}</div>
+      <a class="card-title" href="item.html?id=${ITEMS.indexOf(item)}">${escapeHtml(item.name)}</a>
     </div>
     <p class="card-desc">${escapeHtml(item.description ?? "")}</p>
     <div class="card-meta">
@@ -75,7 +75,7 @@ function renderCard(item) {
     </div>
     <a class="download-btn ${isExternal(item) ? "external" : ""}"
        href="${escapeHtml(downloadUrl(item))}"
-       ${isExternal(it) ? 'target="_blank" rel="noopener"' : 'download'}>
+       ${isExternal(item) ? 'target="_blank" rel="noopener"' : 'download'}>
       ⬇ Download
     </a>
   `;
