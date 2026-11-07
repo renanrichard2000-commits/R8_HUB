@@ -22,15 +22,20 @@
   </header>
 
   <main class="container">
-    <div class="results-bar">
-      <span id="resultCount"></span>
+    <div id="sections" class="sections"></div>
+
+    <div id="resultsArea" hidden>
+      <div class="results-bar">
+        <span id="resultCount"></span>
+        <button id="backToSections" class="ver-mais" style="display:none" type="button">← Voltar aos destaques</button>
+      </div>
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
     </div>
-    <div id="grid" class="grid"></div>
-    <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
   </main>
 
   <footer class="footer">
-    <p>Hospedado no GitHub Pages · <a id="repoLink" href="#" target="_blank">ver repositório</a></p>
+    <p>Hospedado no GitHub Pages · <a href="#" id="repoLink" target="_blank">ver repositório</a></p>
   </footer>
 
   <script src="data.js"></script>

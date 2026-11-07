@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo — Nexus Downloads</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="catalog-header">
+    <div class="hero-inner">
+      <a href="index.html" class="back">← Voltar ao topo</a>
+      <h1 id="pageTitle"></h1>
+      <p id="pageSub" class="tagline"></p>
+      <div class="search-box">
+        <input id="search" type="search" placeholder="🔍 Buscar por nome..." autocomplete="off" />
+      </div>
+      <nav id="categories" class="categories"></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="results-bar">
+      <span id="resultCount"></span>
+    </div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
+  </main>
+
+  <footer class="footer">
+    <p>Hospedado no GitHub Pages · <a href="index.html">voltar para o início</a></p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="catalog.js"></script>
+</body>
+</html>
