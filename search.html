@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscar — Nexus Downloads</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="catalog-header">
+    <div class="hero-inner">
+      <a href="index.html" class="back">← Voltar ao topo</a>
+      <h1>🔍 BUSCAR</h1>
+      <p class="tagline">Encontre o que você precisa — filtre por categoria, idioma e tipo.</p>
+      <div class="search-box">
+        <input id="search" type="search" placeholder="🔍 Buscar por nome..." autocomplete="off" />
+      </div>
+    </div>
+  </header>
+
+  <main class="search-layout">
+    <!-- Lista de resultados -->
+    <div class="search-results">
+      <div class="results-bar">
+        <span id="resultCount"></span>
+        <button id="toggleFilters" class="ver-mais filter-toggle" type="button">☰ Filtros</button>
+      </div>
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
+    </div>
+
+    <!-- Painel de filtros (aberto por padrão) -->
+    <aside id="filterPanel" class="filter-panel">
+      <div class="filter-head">
+        <h2>🎛️ FILTROS</h2>
+        <button id="closeFilters" class="filter-close" type="button">✕</button>
+      </div>
+
+      <!-- CATEGORIAS -->
+      <div class="filter-group">
+        <h3>CATEGORIAS</h3>
+        <div id="filterCategories" class="filter-list"></div>
+      </div>
+
+      <!-- IDIOMAS -->
+      <div class="filter-group">
+        <h3>IDIOMAS DO ITEM</h3>
+        <div id="filterLanguages" class="filter-list"></div>
+      </div>
+
+      <!-- TIPO DO ITEM -->
+      <div class="filter-group">
+        <h3>TIPO DO ITEM</h3>
+        <div id="filterTypes" class="filter-list"></div>
+      </div>
+
+      <button id="clearFilters" class="ver-mais filter-clear" type="button">🧹 Limpar filtros</button>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>Hospedado no GitHub Pages · <a href="index.html">voltar para o início</a></p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>

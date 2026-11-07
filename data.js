@@ -27,13 +27,37 @@ const SECTIONS = [
   { id: "geral",         title: "🎲 GERAL",         sub: "Todos os itens, em ordem aleatória" },
 ];
 
+// Lista de idiomas disponíveis no filtro
+const LANGUAGES = [
+  { id: "pt",   label: "Português",  icon: "🇧🇷" },
+  { id: "en",   label: "Inglês",     icon: "🇬🇧" },
+  { id: "es",   label: "Espanhol",   icon: "🇪🇸" },
+  { id: "fr",   label: "Francês",    icon: "🇫🇷" },
+  { id: "de",   label: "Alemão",     icon: "🇩🇪" },
+  { id: "ja",   label: "Japonês",    icon: "🇯🇵" },
+  { id: "zh",   label: "Chinês",     icon: "🇨🇳" },
+  { id: "ru",   label: "Russo",      icon: "🇷🇺" },
+  { id: "it",   label: "Italiano",   icon: "🇮🇹" },
+];
+
+// Tipos de arquivo disponíveis no filtro
+const ITEM_TYPES = [
+  { id: "apk",  label: "APK" },
+  { id: "exe",  label: "EXE" },
+  { id: "zip",  label: "ZIP" },
+  { id: "rar",  label: "RAR" },
+  { id: "iso",  label: "ISO" },
+  { id: "dmg",  label: "DMG" },
+];
+
 // ============================================================
 // ÍNDICE DE DOWNLOADS
 // ============================================================
 // Cada item:
 //   name        – nome de exibição
 //   category    – games | apps | tools | files
-//   icon        – emoji (age como "capa" do item)
+//   icon        – emoji (fallback)
+//   image       – imagem do ícone (por categoria)
 //   color       – gradiente de cor da capa [início, fim]
 //   featured    – true = aparece no carrossel de destaques
 //   description – descrição completa do item
@@ -41,6 +65,8 @@ const SECTIONS = [
 //   size        – tamanho (opcional, ex.: "12.3 MB")
 //   downloads   – número de downloads (MAIS BAIXADOS)
 //   date        – data de lançamento YYYY-MM-DD (LANÇAMENTOS)
+//   language    – array de idiomas (ex.: ["pt", "en"])
+//   type        – tipo de arquivo (apk | exe | zip | rar | iso | dmg)
 //   file        – arquivo dentro da pasta /files
 //   OR
 //   url         – link externo (ex.: release do GitHub)
@@ -63,6 +89,8 @@ let ITEMS = [
     size: "55 MB",
     downloads: 15420,
     date: "2026-10-28",
+    language: ["pt", "en", "es"],
+    type: "zip",
     file: "./files/minecraft-java.zip",
   },
   {
@@ -76,6 +104,8 @@ let ITEMS = [
     size: "5.2 GB",
     downloads: 18230,
     date: "2026-07-12",
+    language: ["pt", "en", "es", "fr", "de"],
+    type: "iso",
     file: "./files/windows10-iso.iso",
   },
   {
@@ -89,6 +119,8 @@ let ITEMS = [
     size: "88 MB",
     downloads: 6450,
     date: "2026-10-08",
+    language: ["pt", "en"],
+    type: "zip",
     file: "./files/galaxy-quest.zip",
   },
   // ---- JOGOS ----
@@ -102,6 +134,8 @@ let ITEMS = [
     size: "42 MB",
     downloads: 7600,
     date: "2026-10-15",
+    language: ["pt", "en", "es", "de"],
+    type: "zip",
     file: "./files/cyberrunner.zip",
   },
   {
@@ -114,6 +148,8 @@ let ITEMS = [
     size: "85 MB",
     downloads: 9870,
     date: "2026-09-15",
+    language: ["pt", "en", "es", "fr", "de", "ja"],
+    type: "zip",
     file: "./files/among-us.zip",
   },
   {
@@ -126,6 +162,8 @@ let ITEMS = [
     size: "24 MB",
     downloads: 4200,
     date: "2026-11-01",
+    language: ["pt", "en"],
+    type: "zip",
     file: "./files/space-defenders.zip",
   },
   {
@@ -138,6 +176,8 @@ let ITEMS = [
     size: "18 MB",
     downloads: 3100,
     date: "2026-08-20",
+    language: ["pt", "en", "ja"],
+    type: "zip",
     file: "./files/pixel-dungeon.zip",
   },
   {
@@ -150,6 +190,8 @@ let ITEMS = [
     size: "112 MB",
     downloads: 2800,
     date: "2026-09-25",
+    language: ["pt", "en", "es", "it"],
+    type: "zip",
     file: "./files/racing-rivals.zip",
   },
   // ---- APPS ----
@@ -163,6 +205,8 @@ let ITEMS = [
     size: "78 MB",
     downloads: 12340,
     date: "2026-10-10",
+    language: ["pt", "en", "es", "fr", "de", "it"],
+    type: "apk",
     file: "./files/whatsapp-mod.apk",
   },
   {
@@ -175,6 +219,8 @@ let ITEMS = [
     size: "3.4 GB",
     downloads: 8765,
     date: "2026-10-20",
+    language: ["pt", "en", "es", "fr", "de", "ja", "zh", "ru", "it"],
+    type: "rar",
     file: "./files/photoshop-2024.rar",
   },
   {
@@ -187,6 +233,8 @@ let ITEMS = [
     size: "210 MB",
     downloads: 5430,
     date: "2026-10-02",
+    language: ["pt", "en", "es", "fr", "de"],
+    type: "exe",
     file: "./files/canva-installer.exe",
   },
   {
@@ -199,6 +247,8 @@ let ITEMS = [
     size: "32 MB",
     downloads: 4100,
     date: "2026-09-30",
+    language: ["pt", "en", "es", "fr", "de", "ja", "it"],
+    type: "apk",
     file: "./files/musicpro.apk",
   },
   {
@@ -211,6 +261,8 @@ let ITEMS = [
     size: "14 MB",
     downloads: 2300,
     date: "2026-11-02",
+    language: ["pt", "en", "es", "fr", "de", "ja", "zh", "ru", "it"],
+    type: "apk",
     file: "./files/notemaster.apk",
   },
   // ---- FERRAMENTAS ----
@@ -224,6 +276,8 @@ let ITEMS = [
     size: "3.4 MB",
     downloads: 7120,
     date: "2026-08-30",
+    language: ["pt", "en", "es", "fr", "de", "ja", "zh", "ru", "it"],
+    type: "exe",
     file: "./files/winrar-6.11.exe",
   },
   {
@@ -236,6 +290,8 @@ let ITEMS = [
     size: "128 MB",
     downloads: 4560,
     date: "2026-09-28",
+    language: ["pt", "en", "es", "fr", "de", "ja", "zh", "ru", "it"],
+    type: "dmg",
     file: "./files/virtualbox.dmg",
   },
   {
@@ -248,6 +304,8 @@ let ITEMS = [
     size: "65 MB",
     downloads: 3900,
     date: "2026-10-25",
+    language: ["pt", "en", "es", "fr", "de", "it"],
+    type: "exe",
     file: "./files/videoconverter.exe",
   },
   {
@@ -260,6 +318,8 @@ let ITEMS = [
     size: "19 MB",
     downloads: 2100,
     date: "2026-07-18",
+    language: ["pt", "en", "es", "fr", "de"],
+    type: "exe",
     file: "./files/backuppro.exe",
   },
   // ---- ARQUIVOS ----
@@ -273,6 +333,8 @@ let ITEMS = [
     size: "240 MB",
     downloads: 2200,
     date: "2026-11-05",
+    language: ["pt", "en"],
+    type: "zip",
     file: "./files/game-assets-pack.zip",
   },
 ];
