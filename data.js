@@ -1,5 +1,5 @@
 const CATEGORIES = [
-  { id: "all",       label: "Todos",       icon: "📦" },
+  { id: "all",       label: "INICIO",      icon: "🏠" },
   { id: "games",     label: "Jogos",       icon: "🎮" },
   { id: "apps",      label: "Apps",        icon: "📱" },
   { id: "tools",     label: "Ferramentas", icon: "🛠️" },
