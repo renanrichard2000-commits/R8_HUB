@@ -10,20 +10,28 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Barra superior fixa -->
-  <header class="topbar">
-    <div class="topbar-inner">
+  <!-- Header fixo (todas as páginas) -->
+  <header class="site-header">
+    <div class="header-inner">
       <a class="logo" href="index.html">📦 Nexus<span>Downloads</span></a>
-      <a class="inicio-btn" href="index.html">🏠 INICIO</a>
-      <a class="search-link" href="search.html">🔍 Buscar</a>
-      <nav id="categories" class="topbar-nav"></nav>
+      <nav class="site-nav">
+        <a class="nav-link active" href="index.html">🏠 INICIO</a>
+        <a class="nav-link" href="search.html">🔍 BUSCAR</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Barra de plataformas (página inicial) -->
+  <div class="platform-bar">
+    <div class="platform-inner">
+      <nav id="categories" class="platform-nav"></nav>
       <div class="search-box">
         <input id="search" type="search" placeholder="🔍 Buscar..." autocomplete="off" />
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- Barra de gêneros (aparece quando uma plataforma é selecionada) -->
+  <!-- Barra de gêneros -->
   <div id="genreBar" class="genre-bar" hidden>
     <div class="genre-bar-inner">
       <span class="genre-label">GÊNEROS</span>
@@ -31,7 +39,7 @@
     </div>
   </div>
 
-  <!-- Carrossel de destaques -->
+  <!-- Carrossel -->
   <section id="carousel" class="hero-carousel" aria-label="Destaque do momento"></section>
 
   <main class="container">

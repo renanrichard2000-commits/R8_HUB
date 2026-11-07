@@ -10,10 +10,19 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Header fixo -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">📦 Nexus<span>Downloads</span></a>
+      <nav class="site-nav">
+        <a class="nav-link" href="index.html">🏠 INICIO</a>
+        <a class="nav-link active" href="search.html">🔍 BUSCAR</a>
+      </nav>
+    </div>
+  </header>
+
   <header class="catalog-header">
     <div class="hero-inner">
-      <a href="index.html" class="back">← Voltar</a>
-      <a href="index.html" class="inicio-btn-header">🏠 INICIO</a>
       <h1>🔍 BUSCAR</h1>
       <p class="tagline">Encontre o que você precisa — filtre por plataforma, gênero, idioma e tipo.</p>
       <div class="search-box">
@@ -23,7 +32,6 @@
   </header>
 
   <main class="search-layout">
-    <!-- Lista de resultados -->
     <div class="search-results">
       <div class="results-bar">
         <span id="resultCount"></span>
@@ -33,37 +41,27 @@
       <div id="empty" class="empty" hidden>Nenhum item encontrado.</div>
     </div>
 
-    <!-- Painel de filtros (aberto por padrão) -->
     <aside id="filterPanel" class="filter-panel">
       <div class="filter-head">
         <h2>🎛️ FILTROS</h2>
         <button id="closeFilters" class="filter-close" type="button">✕</button>
       </div>
-
-      <!-- PLATAFORMAS -->
       <div class="filter-group">
         <h3>PLATAFORMAS</h3>
         <div id="filterCategories" class="filter-list"></div>
       </div>
-
-      <!-- GÊNEROS (depende da plataforma selecionada) -->
       <div class="filter-group">
         <h3>GÊNEROS</h3>
         <div id="filterGenres" class="filter-list"></div>
       </div>
-
-      <!-- IDIOMAS -->
       <div class="filter-group">
         <h3>IDIOMAS DO ITEM</h3>
         <div id="filterLanguages" class="filter-list"></div>
       </div>
-
-      <!-- TIPO DO ITEM -->
       <div class="filter-group">
         <h3>TIPO DO ITEM</h3>
         <div id="filterTypes" class="filter-list"></div>
       </div>
-
       <button id="clearFilters" class="ver-mais filter-clear" type="button">🧹 Limpar filtros</button>
     </aside>
   </main>
